@@ -1,6 +1,6 @@
 import { CaretLeft, List } from "phosphor-react";
 import { useState } from "react";
-import { BrowserRouter, Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = (): JSX.Element => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
