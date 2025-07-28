@@ -1,16 +1,23 @@
 import "./App.css";
+import Sidebar from "./components/UI/Sidebar";
 import Titlebar from "./components/UI/Titlebar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Chords from "./pages/Chords";
 
 function App() {
-  const titlebar = {
-    title: "Saga"
-  }
-
   return (
-    <main>
-      {/* Titlebar on mobile */}
-      <Titlebar title={titlebar.title}/>
-    </main>
+    <BrowserRouter>
+      <Titlebar />
+      <section className="flex h-[calc(100vh-32px)] gap-x-2">
+        <Sidebar />
+        {/* Titlebar on mobile */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/chords" element={<Chords />} />
+        </Routes>
+      </section>
+    </BrowserRouter>
   );
 }
 
