@@ -7,8 +7,10 @@ const Sidebar = (): JSX.Element => {
 
   return (
     <aside
-      className={`mt-5 md:mt-0 p-2 border-r-1 border-[#2F2F2F] transition-[width] ${
-        sidebarOpen ? "w-[calc(100vw*0.80)] md:w-[calc(100vw*0.25)]" : "w-10"
+      className={`p-2 border-r-1 border-[#2F2F2F] transition-[width] z-10 bg-[#1e1e1e] ${
+        sidebarOpen
+          ? "w-[calc(100vw*0.80)] md:w-[calc(100vw*0.25)] fixed h-full"
+          : "w-10"
       }`}
     >
       {(sidebarOpen && (
@@ -28,7 +30,11 @@ const Sidebar = (): JSX.Element => {
 
           {/* Groups */}
           <section>
-            <NavLink to="/chords" className="custom-link">
+            <NavLink
+              to="/chords"
+              className="custom-link"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
               Chords
             </NavLink>
           </section>

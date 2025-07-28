@@ -30,30 +30,33 @@ const Chords = (): JSX.Element => {
   };
 
   return (
-    <main className="p-2 flex flex-col">
+    <main className="p-2 flex flex-col w-full">
       <h1 className="font-bold">Chord List</h1>
 
-      <section className="flex gap-x-2 text-sm mt-3">
-        <span
-          className={`cursor-pointer ${
-            allSelected ? "opacity-75" : "opacity-50"
-          }`}
-          onClick={handleSetAll}
-        >
-          All
-        </span>
-
-        {chordTypes.map((type) => (
+      {/* Filter List */}
+      <section className="w-full overflow-x-auto">
+        <div className="flex gap-x-2 text-sm mt-3 overflow-x-scroll whitespace-nowrap px-2 pr-16">
           <span
-            key={type}
             className={`cursor-pointer ${
-              chordFilters.includes(type) ? "opacity-75" : "opacity-50"
+              allSelected ? "opacity-100" : "opacity-50"
             }`}
-            onClick={() => handleFilter(type)}
+            onClick={handleSetAll}
           >
-            {type}
+            All
           </span>
-        ))}
+
+          {chordTypes.map((type) => (
+            <span
+              key={type}
+              className={`cursor-pointer ${
+                chordFilters.includes(type) ? "opacity-100" : "opacity-50"
+              }`}
+              onClick={() => handleFilter(type)}
+            >
+              {type}
+            </span>
+          ))}
+        </div>
       </section>
     </main>
   );

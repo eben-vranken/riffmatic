@@ -9,8 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <Titlebar />
-      <section className="flex h-[calc(100vh-32px)] gap-x-2">
+      <section className="flex h-[calc(100vh-32px)] w-full gap-x-2 overflow-clip">
         <Sidebar />
+
         {/* Titlebar on mobile */}
         <Routes>
           <Route path="/" element={<Home />} />
