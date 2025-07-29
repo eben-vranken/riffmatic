@@ -23,13 +23,20 @@ const Sidebar = (): JSX.Element => {
           </section>
 
           {/* Groups */}
-          <section>
+          <section className="flex flex-col">
             <NavLink
               to="/chords"
               className="custom-link"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               Chords
+            </NavLink>
+            <NavLink
+              to="/metronome"
+              className="custom-link"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              Metronome
             </NavLink>
           </section>
         </section>

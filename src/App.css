@@ -29,6 +29,17 @@ body {
     opacity: 100%;
 }
 
+.custom-input {
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    padding: 1px 4px;
+}
+
+.custom-input::placeholder {
+    color: rgba(255,255,255,0.3);
+}
+
 @media (pointer:none), (pointer:coarse) {
     body {
         user-select: none;

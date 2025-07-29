@@ -25,17 +25,22 @@ const chordTypes = [
 const Chords = (): JSX.Element => {
   const [chords, setChords] = useState<Chord[]>([]);
   const [chordFilters, setChordFilters] = useState<string[]>([...chordTypes]);
+  const [chordSearchName, setChordSearchName] = useState<string>("");
 
   useEffect(() => {
     console.log(chordFilters);
-    const chords = useGetChords({ chord_name: "", types: chordFilters });
+    const chords = useGetChords({
+      chord_name: chordSearchName,
+      types: chordFilters,
+    });
 
     setChords(chords);
 
     console.log(chords);
-  }, [chordFilters]);
+  }, [chordFilters, chordSearchName]);
 
-  const allSelected = chordFilters.length === chordTypes.length;
+  const allSelected =
+    chordFilters.length === chordTypes.length || chordSearchName != "";
 
   const handleFilter = (chordType: string) => {
     setChordFilters((prev) =>
@@ -49,9 +54,21 @@ const Chords = (): JSX.Element => {
     setChordFilters(allSelected ? [] : [...chordTypes]);
   };
 
+  const handleSearchByName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setChordSearchName(e.currentTarget.value);
+  };
+
   return (
-    <main className="p-2 pb-0 flex flex-col w-full">
+    <main className="p-2 pb-0 flex flex-col gap-y-2 w-full">
       <h1 className="font-bold">Chord List</h1>
+
+      {/* Search by name */}
+      <input
+        type="text"
+        className="custom-input w-52"
+        placeholder="Search for a chord..."
+        onChange={(e) => handleSearchByName(e)}
+      />
 
       {/* Filter List */}
       <section className="flex gap-x-2 text-sm flex-wrap pr-16">
@@ -68,7 +85,7 @@ const Chords = (): JSX.Element => {
           <span
             key={type}
             className={`cursor-pointer ${
-              chordFilters.includes(type)
+              chordFilters.includes(type) || chordSearchName != ""
                 ? "opacity-100 underline"
                 : "opacity-50"
             }`}

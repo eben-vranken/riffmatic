@@ -4,6 +4,7 @@ import Titlebar from "./components/UI/Titlebar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Chords from "./pages/Chords";
+import Metronome from "./pages/Metronome";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/chords" element={<Chords />} />
+          <Route path="/metronome" element={<Metronome />} />
         </Routes>
       </section>
     </BrowserRouter>
