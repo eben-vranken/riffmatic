@@ -83,7 +83,7 @@ const Chords = (): JSX.Element => {
       <section className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 overflow-y-auto">
         {chords.map((chord, i) => {
           return (
-            <section key={i} className="bg-white/5 rounded">
+            <section key={i} className="bg-white/5 rounded flex flex-col p-3">
               <h1 className="font-bold w-full text-center">{chord.name}</h1>
 
               <section className="flex items-center justify-center">
