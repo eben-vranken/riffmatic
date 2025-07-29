@@ -1,0 +1,277 @@
+{
+  "chords": [
+    {
+      "name": "C Major",
+      "type": "major",
+      "strings": "x32010",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "D Major",
+      "type": "major",
+      "strings": "xx0232",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "E Major",
+      "type": "major",
+      "strings": "022100",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "G Major",
+      "type": "major",
+      "strings": "320003",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "A Major",
+      "type": "major",
+      "strings": "x02220",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "F Major (Easy)",
+      "type": "major",
+      "strings": "xx3211",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "F Major (Barre)",
+      "type": "major",
+      "strings": "133211",
+      "tag": "Triads",
+      "barre": 1
+    },
+    {
+      "name": "B Major (Barre)",
+      "type": "major",
+      "strings": "x24442",
+      "tag": "Triads",
+      "barre": 2
+    },
+    {
+      "name": "A Minor",
+      "type": "minor",
+      "strings": "x02210",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "D Minor",
+      "type": "minor",
+      "strings": "xx0231",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "E Minor",
+      "type": "minor",
+      "strings": "022000",
+      "tag": "Triads",
+      "barre": null
+    },
+    {
+      "name": "B Minor (Barre)",
+      "type": "minor",
+      "strings": "x24432",
+      "tag": "Triads",
+      "barre": 2
+    },
+    {
+      "name": "C Minor (Barre)",
+      "type": "minor",
+      "strings": "x35543",
+      "tag": "Triads",
+      "barre": 3
+    },
+    {
+      "name": "G Minor (Barre)",
+      "type": "minor",
+      "strings": "355333",
+      "tag": "Triads",
+      "barre": 3
+    },
+    {
+      "name": "A7",
+      "type": "dominant7",
+      "strings": "x02020",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "B7",
+      "type": "dominant7",
+      "strings": "x21202",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "C7",
+      "type": "dominant7",
+      "strings": "x32310",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "D7",
+      "type": "dominant7",
+      "strings": "xx0212",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "E7",
+      "type": "dominant7",
+      "strings": "020100",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "G7",
+      "type": "dominant7",
+      "strings": "320001",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Am7",
+      "type": "minor7",
+      "strings": "x02010",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Bm7 (Barre)",
+      "type": "minor7",
+      "strings": "x24232",
+      "tag": "7ths",
+      "barre": 2
+    },
+    {
+      "name": "Dm7",
+      "type": "minor7",
+      "strings": "xx0211",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Em7",
+      "type": "minor7",
+      "strings": "022030",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "A#m7 (Barre)",
+      "type": "minor7",
+      "strings": "x13121",
+      "tag": "7ths",
+      "barre": 1
+    },
+    {
+      "name": "Asus2",
+      "type": "suspended",
+      "strings": "x02200",
+      "tag": "Sus/5",
+      "barre": null
+    },
+    {
+      "name": "Asus4",
+      "type": "suspended",
+      "strings": "x02230",
+      "tag": "Sus/5",
+      "barre": null
+    },
+    {
+      "name": "Dsus2",
+      "type": "suspended",
+      "strings": "xx0230",
+      "tag": "Sus/5",
+      "barre": null
+    },
+    {
+      "name": "Dsus4",
+      "type": "suspended",
+      "strings": "xx0233",
+      "tag": "Sus/5",
+      "barre": null
+    },
+    {
+      "name": "Esus4",
+      "type": "suspended",
+      "strings": "022200",
+      "tag": "Sus/5",
+      "barre": null
+    },
+    {
+      "name": "G/B",
+      "type": "slash",
+      "strings": "x20003",
+      "tag": "Slash",
+      "barre": null
+    },
+    {
+      "name": "D/F#",
+      "type": "slash",
+      "strings": "200232",
+      "tag": "Slash",
+      "barre": null
+    },
+    {
+      "name": "Cadd9",
+      "type": "add",
+      "strings": "x32033",
+      "tag": "Add/6",
+      "barre": null
+    },
+    {
+      "name": "Em/G",
+      "type": "slash",
+      "strings": "322000",
+      "tag": "Slash",
+      "barre": null
+    },
+    {
+      "name": "Fmaj7",
+      "type": "major7",
+      "strings": "xx3210",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Amaj7",
+      "type": "major7",
+      "strings": "x02120",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Dmaj7",
+      "type": "major7",
+      "strings": "xx0222",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Emaj7",
+      "type": "major7",
+      "strings": "021100",
+      "tag": "7ths",
+      "barre": null
+    },
+    {
+      "name": "Em9 (Easy)",
+      "type": "minor9",
+      "strings": "022002",
+      "tag": "Extended",
+      "barre": null
+    }
+  ]
+}

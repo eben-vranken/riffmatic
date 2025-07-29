@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Titlebar />
-      <section className="flex h-[calc(100vh-32px)] w-full gap-x-2 overflow-clip">
+      <section className="flex h-[calc(100vh)] w-full gap-x-2 pointer-fine:pt-8">
         <Sidebar />
 
         {/* Titlebar on mobile */}

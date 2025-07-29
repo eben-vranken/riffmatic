@@ -21,7 +21,7 @@ const Titlebar = (): JSX.Element => {
 
   return (
     <section
-      className="hidden md:flex justify-between items-center select-none h-8 border-b-1 border-[#2F2F2F] px-2"
+      className="titlebar fixed flex w-full bg-[#1E1E1E] justify-between items-center select-none h-8 border-b-1 border-[#2F2F2F] px-2"
       data-tauri-drag-region
     >
       {/* Page control */}

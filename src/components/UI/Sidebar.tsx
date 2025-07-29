@@ -6,19 +6,13 @@ const Sidebar = (): JSX.Element => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <aside
-      className={`p-2 border-r-1 border-[#2F2F2F] transition-[width] z-10 bg-[#1e1e1e] ${
-        sidebarOpen
-          ? "w-[calc(100vw*0.80)] md:w-[calc(100vw*0.25)] fixed h-full"
-          : "w-10"
-      }`}
-    >
-      {(sidebarOpen && (
+    <aside>
+      {sidebarOpen && (
         // Sidebar open
-        <section>
+        <section className="p-2 w-[calc(100vw*0.80)] md:w-[calc(100vw*0.25)] fixed h-full z-20 border-r-1 bg-[#1e1e1e] border-[#2F2F2F]">
           {/* Sidebar header */}
           <section className="flex justify-between items-center mb-2">
-            <h1 className="font-semibold">Navigation</h1>
+            <h1 className="font-semibold">Riffmatic</h1>
 
             <CaretLeft
               size={20}
@@ -39,17 +33,16 @@ const Sidebar = (): JSX.Element => {
             </NavLink>
           </section>
         </section>
-      )) || (
-        // Sidebar closed
-        <section className="flex justify-end items-center">
-          <List
-            size={25}
-            weight="bold"
-            className="opacity-50 hover:opacity-100 text-center cursor-pointer"
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-          />
-        </section>
       )}
+      {/* Sidebar closed */}
+      <section className="flex pt-2 flex-col items-center w-10 h-full border-r-1 bg-[#1e1e1e] border-[#2F2F2F] z-0">
+        <List
+          size={25}
+          weight="bold"
+          className="opacity-50 hover:opacity-100 text-center cursor-pointer"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        />
+      </section>
     </aside>
   );
 };
