@@ -23,7 +23,7 @@ const Sidebar = (): JSX.Element => {
         <section className="p-2 w-[calc(100vw*0.80)] md:w-[calc(100vw*0.25)] fixed md:relative h-full z-20 border-r-1 bg-[#1e1e1e] border-[#2F2F2F]">
           {/* Sidebar header */}
           <section className="flex justify-between items-center mb-2">
-            <h1 className="font-semibold">Riffmatic</h1>
+            <h1 className="font-semibold text-(--primary)">Riffmatic</h1>
 
             <CaretLeft
               size={20}
