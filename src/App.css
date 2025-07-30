@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
-:root{
-  --safe-top: env(safe-area-inset-top);
-  --safe-right: env(safe-area-inset-right);
-  --safe-bottom: env(safe-area-inset-bottom);
-  --safe-left: env(safe-area-inset-left);
+:root {
+    --safe-top: env(safe-area-inset-top);
+    --safe-right: env(safe-area-inset-right);
+    --safe-bottom: env(safe-area-inset-bottom);
+    --safe-left: env(safe-area-inset-left);
 }
 
-html, body{
-  min-height: 100dvh;
-  width: 100%;
+html,
+body {
+    min-height: 100dvh;
+    width: 100%;
 }
 
 body {
@@ -26,21 +27,22 @@ body {
 }
 
 .custom-link:hover {
-    opacity: 100%;
+    opacity: 85%;
 }
 
 .custom-input {
     outline: none;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 3px;
     padding: 1px 4px;
 }
 
 .custom-input::placeholder {
-    color: rgba(255,255,255,0.3);
+    color: rgba(255, 255, 255, 0.3);
 }
 
-@media (pointer:none), (pointer:coarse) {
+@media (pointer:none),
+(pointer:coarse) {
     body {
         user-select: none;
     }
