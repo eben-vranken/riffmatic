@@ -3,8 +3,8 @@ import Sidebar from "./components/UI/Sidebar";
 import Titlebar from "./components/UI/Titlebar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Chords from "./pages/Chords";
-import Metronome from "./pages/Metronome";
+import Chords from "./pages/Tools/Chords";
+import Metronome from "./pages/Tools/Metronome";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useGetChords from "../hooks/chords/useGetChords";
-import { ChordTabs } from "../components/Guitar/ChordTabs";
+import useGetChords from "../../hooks/chords/useGetChords";
+import { ChordTabs } from "../../components/Guitar/ChordTabs";
 
 interface Chord {
   name: string;
