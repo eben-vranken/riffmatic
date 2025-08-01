@@ -1,214 +1,130 @@
 import { useEffect, useRef, useState } from "react";
 
-const Metronome = (): JSX.Element => {
-  const [val, setVal] = useState("300");
-  const min = 1,
-    max = 180;
-
-  // RUN/PAUSE
-  const [running, setRunning] = useState(true);
-  const frozenFracRef = useRef(0);
-
-  // AUDIO
-  const ctxRef = useRef<AudioContext | null>(null);
-  const epochRef = useRef(0);
+/* audio + scheduler */
+const useMetronomeEngine = (bpm: number, running: boolean, volume: number) => {
+  const ctxRef = useRef<AudioContext>();
+  const gainRef = useRef<GainNode>();
   const nextTimeRef = useRef(0);
-  const timerRef = useRef<number | null>(null);
-  const masterGainRef = useRef<GainNode | null>(null);
-  const bufferRef = useRef<AudioBuffer | null>(null);
 
-  // VISUAL
-  const [animKey, setAnimKey] = useState(0);
-  const [animDelaySec, setAnimDelaySec] = useState(0);
-
-  // VOLUME (0..1)
-  const [volume, setVolume] = useState(0.7);
-
-  const allow = (next: string) => {
-    if (next === "") return true;
-    if (!/^\d+$/.test(next)) return false;
-    const n = parseInt(next, 10);
-    return n >= min && n <= max;
-  };
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.value;
-    if (allow(next)) setVal(next);
-  };
-
-  const parsed = parseInt(val, 10);
-  const bpm = Number.isFinite(parsed) ? parsed : min;
   const period = 60 / bpm;
 
-  const getPhaseNow = () => {
-    const ctx = ctxRef.current;
-    if (!ctx) return 0;
-    const t = ctx.currentTime - epochRef.current;
-    const m = ((t % period) + period) % period;
-    return m;
-  };
-
-  const ensureSample = async (ctx: AudioContext) => {
-    if (bufferRef.current) return bufferRef.current;
-    const res = await fetch("/click.wav");
-    const arr = await res.arrayBuffer();
-    const buf = await ctx.decodeAudioData(arr);
-    bufferRef.current = buf;
-    return buf;
-  };
-
-  // play sample at time t
-  const scheduleClick = (t: number) => {
+  // click sound
+  const click = (t: number) => {
     const ctx = ctxRef.current!;
-    const buf = bufferRef.current;
-    if (!buf) return;
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.connect(masterGainRef.current!);
-    src.start(t);
+    const osc = ctx.createOscillator();
+    osc.frequency.value = 1000;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(1, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+    osc.connect(g).connect(gainRef.current!);
+    osc.start(t);
+    osc.stop(t + 0.05);
   };
 
-  // init / scheduler (runs only when BPM or running change)
   useEffect(() => {
-    let cancelled = false;
+    if (!running) return;
+    if (!ctxRef.current) ctxRef.current = new AudioContext();
+    const ctx = ctxRef.current;
 
-    const start = async () => {
-      if (!ctxRef.current)
-        ctxRef.current = new (window.AudioContext ||
-          (window as any).webkitAudioContext)();
-      const ctx = ctxRef.current;
+    if (!gainRef.current) {
+      gainRef.current = ctx.createGain();
+      gainRef.current.gain.value = volume;
+      gainRef.current.connect(ctx.destination);
+    }
 
-      // master gain once
-      if (!masterGainRef.current) {
-        masterGainRef.current = ctx.createGain();
-        masterGainRef.current.gain.value = volume;
-        masterGainRef.current.connect(ctx.destination);
+    ctx.resume();
+    nextTimeRef.current = ctx.currentTime + 0.05;
+
+    const id = setInterval(() => {
+      while (nextTimeRef.current < ctx.currentTime + 0.1) {
+        click(nextTimeRef.current);
+        nextTimeRef.current += period;
       }
+    }, 25);
 
-      if (!running) {
-        if (timerRef.current) window.clearInterval(timerRef.current);
-        return;
-      }
+    return () => clearInterval(id);
+  }, [bpm, running]);
 
-      await ctx.resume();
-      await ensureSample(ctx);
-      if (cancelled) return;
-
-      if (epochRef.current === 0) epochRef.current = ctx.currentTime;
-
-      if (timerRef.current) window.clearInterval(timerRef.current);
-
-      // align next beat to the epoch grid
-      let next = epochRef.current;
-      while (next < ctx.currentTime + 0.05) next += period;
-      nextTimeRef.current = next;
-
-      // set the animation’s fixed negative delay for this run
-      setAnimDelaySec(getPhaseNow());
-      setAnimKey((k) => k + 1);
-
-      const lookahead = 25; // ms
-      const scheduleAhead = 0.1; // s
-      timerRef.current = window.setInterval(() => {
-        while (nextTimeRef.current < ctx.currentTime + scheduleAhead) {
-          scheduleClick(nextTimeRef.current);
-          nextTimeRef.current += period;
-        }
-      }, lookahead);
-    };
-
-    start();
-
-    return () => {
-      cancelled = true;
-      if (timerRef.current) window.clearInterval(timerRef.current);
-    };
-  }, [period, running]);
-
-  // smooth volume updates
+  /* smooth volume */
   useEffect(() => {
     const ctx = ctxRef.current;
-    const mg = masterGainRef.current;
-    if (ctx && mg) mg.gain.setTargetAtTime(volume, ctx.currentTime, 0.01);
+    const g = gainRef.current;
+    if (ctx && g) g.gain.setTargetAtTime(volume, ctx.currentTime, 0.01);
   }, [volume]);
 
-  const toggleRun = () => {
-    if (!ctxRef.current)
-      ctxRef.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
-    ctxRef.current.resume();
+  return period;
+};
 
-    if (running) {
-      // freeze at current fraction of cycle
-      frozenFracRef.current = getPhaseNow() / period;
-      if (timerRef.current) window.clearInterval(timerRef.current);
-      setRunning(false);
-    } else {
-      setRunning(true);
-    }
-  };
+const Metronome = (): JSX.Element => {
+  const min = 1,
+    max = 180;
+  const [val, setVal] = useState("180");
+  const [running, setRunning] = useState(false);
+  const [volume, setVolume] = useState(0.7);
+
+  const bpm = Math.min(max, Math.max(min, parseInt(val, 10) || min));
+  const period = useMetronomeEngine(bpm, running, volume);
+
+  /* restart animation */
+  const [animKey, setAnimKey] = useState(0);
+  useEffect(() => {
+    if (running) setAnimKey((k) => k + 1);
+  }, [running, period]);
+
+  const toggleRun = () => setRunning((v) => !v);
 
   return (
     <main className="p-2 w-full h-[calc(100vh-64px)] relative">
       <h1 className="font-bold">Metronome</h1>
 
       <section className="flex flex-col items-center justify-center w-full h-full">
-        {/* Visual metronome */}
-        <section>
-          <section className="metronome">
-            <section
-              key={animKey}
-              className="ball"
-              style={{
-                animationDuration: `${period}s`,
-                animationTimingFunction: "linear",
-                animationDirection: "alternate",
-                animationDelay: `${-animDelaySec}s`,
-                animationPlayState: running
-                  ? ("running" as const)
-                  : ("paused" as const),
-              }}
-            />
-            <section className="line" />
-          </section>
+        {/* Visual */}
+        <section className="metronome">
+          <section
+            key={animKey}
+            className="ball"
+            style={{
+              animationDuration: `${period}s`,
+              animationTimingFunction: "linear",
+              animationDirection: "alternate",
+              animationPlayState: running ? "running" : "paused",
+            }}
+          />
+          <section className="line" />
         </section>
 
-        {/* Control */}
-        <section className="flex flex-col items-center">
+        {/* Controls */}
+        <section className="flex flex-col items-center mt-8">
           <input
             type="text"
             inputMode="numeric"
             value={val}
-            onChange={onChange}
-            onPointerDown={() => ctxRef.current?.resume()}
+            onChange={(e) => {
+              const next = e.target.value;
+              if (/^\d*$/.test(next)) setVal(next);
+            }}
             aria-label={`Number between ${min} and ${max}`}
             className="hidden-input w-full text-center text-[100px] h-[70%] font-bold cursor-pointer"
           />
           <span className="opacity-75 font-semibold text-lg">BPM</span>
 
-          {/* Pause + Volume */}
           <section className="flex gap-x-5 mt-2">
             <button
               onClick={toggleRun}
-              className={`w-20 aspect-square flex flex-col items-center justify-center rounded-full py-2 border-2 opacity-75 font-semibold cursor-pointer ${
-                running
-                  ? "border-red-500/50 text-red-500/90"
-                  : "border-green-500/50 text-green-500/90"
-              }`}
+              className={`w-20 aspect-square flex flex-col items-center justify-center rounded-full py-2 border-2 opacity-75 font-semibold cursor-pointer ${running ? "border-red-500/50 text-red-500/90" : "border-green-500/50 text-green-500/90"}`}
             >
               <span className="font-bold">{running ? "Pause" : "Start"}</span>
             </button>
 
-            {/* Volume slider */}
-            <div
-              className="w-20 aspect-square flex flex-col items-center justify-center rounded-full border border-white/20 opacity-75"
-              onPointerDown={() => ctxRef.current?.resume()}
-            >
+            <div className="w-20 aspect-square flex flex-col items-center justify-center rounded-full border border-white/20 opacity-75">
               <input
                 type="range"
                 min={0}
                 max={100}
                 value={Math.round(volume * 100)}
-                onChange={(e) => setVolume(parseInt(e.target.value, 10) / 100)}
+                onChange={(e) =>
+                  setVolume(parseInt(e.target.value, 10) / 100)
+                }
                 aria-label="Volume"
                 className="w-12 cursor-pointer"
               />

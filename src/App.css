@@ -62,34 +62,44 @@ body {
 }
 
 .metronome {
-  position: relative;               /* make the track the containing block */
-  height: 20px;
-  border-radius: 20px;
-  width: 250px;
-  background: rgba(255,255,255,0.1);
-  margin: 0 auto;                   /* center without absolute+transform */
+    position: relative;
+    height: 20px;
+    border-radius: 20px;
+    width: 250px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 auto;
 }
 
 .metronome .ball {
-  width: 20px; height: 20px;
-  border-radius: 25px;
-  background-color: var(--primary, #fe8019); /* fallback color */
-  position: absolute;
-  animation-name: metronome;
-  animation-iteration-count: infinite;
+    width: 20px;
+    height: 20px;
+    border-radius: 25px;
+    background-color: var(--primary, #fe8019);
+    /* fallback color */
+    position: absolute;
+    animation-name: metronome;
+    animation-iteration-count: infinite;
 }
 
 .metronome .line {
-  width: 250px; height: 2px;
-  background: rgba(255,255,255,0.2);
-  position: absolute; top: 50%;
-  transform: translateY(-50%);
+    width: 250px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 @keyframes metronome {
-  from { left: 0; }
-  to   { left: calc(100% - 20px); } /* stop at the right edge */
+    from {
+        left: 0;
+    }
+
+    to {
+        left: calc(100% - 20px);
+    }
 }
+
 @media (pointer:none),
 (pointer:coarse) {
     body {
